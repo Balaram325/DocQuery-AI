@@ -28,9 +28,9 @@ def pdf_chunks(data: bytes, filename: str) -> list[dict]:
 def build_index(chunks: list[dict], embedding_model):
     import chromadb
     db = chromadb.EphemeralClient()
-    collection = db.create_collection("research_papers_" + hashlib.sha1("".join(c["id"] for c in chunks).encode()).hexdigest()[:16])
+    collection = db.get_or_create_collection("research_papers_" + hashlib.sha1("".join(c["id"] for c in chunks).encode()).hexdigest()[:16])
     vectors = embedding_model.encode([c["text"] for c in chunks], normalize_embeddings=True).tolist()
-    collection.add(ids=[c["id"] for c in chunks], documents=[c["text"] for c in chunks],
+    collection.upsert(ids=[c["id"] for c in chunks], documents=[c["text"] for c in chunks],
                    metadatas=[{"source": c["source"], "page": c["page"]} for c in chunks], embeddings=vectors)
     return collection
 
