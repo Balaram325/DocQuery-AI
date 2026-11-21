@@ -1,4 +1,4 @@
-# Deploy ResearchPaper AI on Streamlit Community Cloud
+# Deploy DocQuery AI on Streamlit Community Cloud
 
 The app is ready for a **retrieval-only public demo**. Visitors can upload searchable research PDFs, index them and inspect the passages retrieved for a question. This demonstration does not need an OpenAI, OpenRouter or Gemini key. API-backed answers can still be used locally.
 
