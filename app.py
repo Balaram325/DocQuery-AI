@@ -18,7 +18,14 @@ with st.sidebar:
     st.header("Documents")
     files = st.file_uploader("Upload searchable PDFs", type=["pdf"], accept_multiple_files=True)
     # Public deployment defaults to retrieval-only to avoid exposing paid API usage.
-    cloud_demo = os.getenv("RAG_PUBLIC_DEMO", "0") == "1"
+    # Streamlit Community Cloud exposes deployment settings through st.secrets.
+    demo_setting = os.getenv("RAG_PUBLIC_DEMO")
+    if demo_setting is None:
+        try:
+            demo_setting = st.secrets.get("RAG_PUBLIC_DEMO", "0")
+        except (FileNotFoundError, KeyError):
+            demo_setting = "0"
+    cloud_demo = str(demo_setting).lower() in {"1", "true", "yes"}
     modes = ["Retrieval only"] if cloud_demo else ["OpenRouter", "Gemini", "Retrieval only", "Ollama"]
     provider = st.selectbox("Answer mode", modes, index=0 if cloud_demo else 0)
     if cloud_demo:
