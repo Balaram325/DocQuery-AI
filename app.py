@@ -17,7 +17,12 @@ def load_model():
 with st.sidebar:
     st.header("Documents")
     files = st.file_uploader("Upload searchable PDFs", type=["pdf"], accept_multiple_files=True)
-    provider = st.selectbox("Answer mode", ["OpenRouter", "Gemini", "Retrieval only", "Ollama"])
+    # Public deployment defaults to retrieval-only to avoid exposing paid API usage.
+    cloud_demo = os.getenv("RAG_PUBLIC_DEMO", "0") == "1"
+    modes = ["Retrieval only"] if cloud_demo else ["OpenRouter", "Gemini", "Retrieval only", "Ollama"]
+    provider = st.selectbox("Answer mode", modes, index=0 if cloud_demo else 0)
+    if cloud_demo:
+        st.caption("Public demo: semantic retrieval only. No LLM key is needed.")
     top_k = st.slider("Retrieved passages", 1, 8, 4)
     index_clicked = st.button("Index uploaded PDFs", type="primary")
     if provider == "OpenRouter" and not os.getenv("OPENROUTER_API_KEY"):
