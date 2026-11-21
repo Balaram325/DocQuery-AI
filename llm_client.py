@@ -1,4 +1,4 @@
-"""Grounded PDF question answering using Gemini or local Ollama."""
+"""Grounded PDF question answering using OpenRouter, Gemini or Ollama."""
 import os
 import requests
 
@@ -11,6 +11,38 @@ SYSTEM = (
 
 def answer(question: str, context: str, provider: str) -> str:
     prompt = f"PDF excerpts:\n{context}\n\nQuestion: {question}"
+    if provider == "OpenRouter":
+        key = os.getenv("OPENROUTER_API_KEY", "").strip()
+        if not key:
+            raise ValueError("OPENROUTER_API_KEY is missing. Add it to your local .env file.")
+        model = os.getenv("OPENROUTER_MODEL", "openrouter/free").strip()
+        if not model:
+            raise ValueError("OPENROUTER_MODEL cannot be empty.")
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json",
+                     "X-Title": "ResearchPaper AI"},
+            json={"model": model, "messages": [
+                {"role": "system", "content": SYSTEM},
+                {"role": "user", "content": prompt}
+            ]},
+            timeout=120,
+        )
+        if not response.ok:
+            try:
+                error = response.json().get("error", {})
+                message = error.get("message", "Request failed") if isinstance(error, dict) else "Request failed"
+            except ValueError:
+                message = "Request failed"
+            raise RuntimeError(f"OpenRouter API error (HTTP {response.status_code}): {message}")
+        data = response.json()
+        choices = data.get("choices", [])
+        if not choices:
+            raise RuntimeError("OpenRouter returned no completion choices.")
+        content = choices[0].get("message", {}).get("content")
+        if isinstance(content, list):
+            content = "\n".join(part.get("text", "") for part in content if isinstance(part, dict))
+        return content.strip() if isinstance(content, str) and content.strip() else "OpenRouter returned no text answer."
     if provider == "Gemini":
         key = os.getenv("GEMINI_API_KEY", "").strip()
         if not key:
