@@ -17,9 +17,11 @@ def load_model():
 with st.sidebar:
     st.header("Documents")
     files = st.file_uploader("Upload searchable PDFs", type=["pdf"], accept_multiple_files=True)
-    provider = st.selectbox("Answer mode", ["Gemini", "Retrieval only", "Ollama"])
+    provider = st.selectbox("Answer mode", ["OpenRouter", "Gemini", "Retrieval only", "Ollama"])
     top_k = st.slider("Retrieved passages", 1, 8, 4)
     index_clicked = st.button("Index uploaded PDFs", type="primary")
+    if provider == "OpenRouter" and not os.getenv("OPENROUTER_API_KEY"):
+        st.warning("Set OPENROUTER_API_KEY in your local .env before using OpenRouter.")
     if provider == "Gemini" and not os.getenv("GEMINI_API_KEY"):
         st.warning("Set GEMINI_API_KEY in your local .env before using Gemini.")
     if provider == "Ollama":
@@ -65,6 +67,8 @@ else:
                 response = "No matching text found in the uploaded PDFs."
             elif provider == "Retrieval only":
                 response = "Retrieval-only mode: see supporting passages below. Select an LLM provider to generate an answer."
+            elif provider == "OpenRouter" and not os.getenv("OPENROUTER_API_KEY"):
+                response = "OpenRouter API key not configured. Select Retrieval only or add OPENROUTER_API_KEY to .env."
             elif provider == "Gemini" and not os.getenv("GEMINI_API_KEY"):
                 response = "Gemini API key not configured. Select Retrieval only or add GEMINI_API_KEY to .env."
             else:
