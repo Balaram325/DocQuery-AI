@@ -1,50 +1,56 @@
 # ResearchPaper AI — RAG PDF Question Answering
 
-An educational **Retrieval-Augmented Generation** project for research PDFs.
+A Python/Streamlit research PDF assistant combining page-aware retrieval with optional **Gemini** or local **Ollama** answer generation. No OpenAI key is required.
 
 ## Features
-- Upload multiple searchable PDF files using Streamlit
-- Extract page-aware text with pypdf, split into overlapping chunks
-- Semantic retrieval using Sentence Transformers and ChromaDB (in-memory index)
-- Optional grounded LLM answers using local Ollama or OpenAI API
-- Show retrieved source filename, page number, and supporting text
-- Retrieval-only fallback when no LLM is configured
+- Upload multiple searchable PDFs in Streamlit
+- Extract page text with pypdf, split into overlapping chunks
+- Embed with Sentence Transformers and search with ChromaDB
+- Generate answers from retrieved passages with Gemini API (default) or Ollama
+- Inspect source filename, page number and retrieved excerpts
+- Retrieval-only mode, even without any LLM key
 
-## Run locally
+## Install on Windows (VS Code terminal)
 Requires Python 3.10+.
 
-```bash
+```powershell
 git clone https://github.com/Balaram325/RAG_ALL_WORKS.git
 cd RAG_ALL_WORKS
 python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Open the **local** `.env` and set `GEMINI_API_KEY=your_real_key`. Never paste your key into GitHub, public screenshots, issues or chat.
+
+Start the app:
+
+```powershell
 streamlit run app.py
 ```
 
-The embedding model downloads on first run.
+Upload a searchable PDF, click **Index uploaded PDFs**, choose **Gemini**, and ask a question. The embedding model downloads on first use.
 
-## Choose an LLM
-**Ollama (local):** Install Ollama, run `ollama pull llama3.2`, ensure its server is running, then select **Ollama** in the app.
+## Gemini model selection
+The default `GEMINI_MODEL=gemini-2.5-flash` requires a Gemini API key with access to that model. Available model IDs and quotas vary by account and may change; if the API returns 404 or a quota/access error, check model availability in [Google AI Studio](https://aistudio.google.com/) and update `GEMINI_MODEL` in your local `.env`. Google Gemini requests send the retrieved PDF passages to Google's API; avoid sensitive PDFs.
 
-**OpenAI:** Copy `.env.example` to `.env`, set `OPENAI_API_KEY`, and select **OpenAI**. OpenAI API usage is billed separately from ChatGPT subscriptions.
-
-**Retrieval only:** Works without an LLM API. Shows supporting passages, not a synthesized answer.
+## Other modes
+- **Retrieval only:** no API key needed; shows source passages without generated answers.
+- **Ollama:** install Ollama, run `ollama pull llama3.2:1b`, keep its server running, select **Ollama**. No cloud API key needed.
 
 ## Test
-```bash
-pip install -r requirements-dev.txt
+```powershell
+python -m pip install -r requirements-dev.txt
 python -m pytest -q
 ```
 
-## Notes
-- Scanned/image-only PDFs are unsupported (no OCR).
-- Uploaded document excerpts sent to OpenAI are processed by that external provider. Ollama can run locally.
-- PDFs and secrets should not be committed; do not upload confidential documents.
-- Retrieved pages are supporting passages, not independently verified facts.
-- This is a **RAG prototype**, not a finished autonomous Agentic AI system.
-- No benchmark accuracy, latency, or reliability claims are made without testing.
+## Limitations and safety
+- Scanned/image-only PDFs require OCR, not included here.
+- Citation markers refer to retrieved snippets, not independently verified truth; review their source pages.
+- Do not commit `.env`, keys, confidential PDFs or local vector stores.
+- This is an educational RAG prototype, not a validated deployed service or autonomous agent.
+- Integration behavior, accuracy and latency should be verified locally before making portfolio claims.
 
-## Portfolio description
-Python PDF RAG prototype using pypdf, Sentence Transformers, ChromaDB and Streamlit for page-aware semantic retrieval, with optional LLM answer generation and displayed source references.
+## Portfolio summary
+Python RAG PDF assistant with Streamlit, pypdf, Sentence Transformers, ChromaDB and optional Gemini API generation; displays source pages for answer checking.
