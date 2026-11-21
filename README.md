@@ -2,6 +2,10 @@
 
 A Python/Streamlit research PDF assistant combining page-aware retrieval with **OpenRouter** answer generation (default), optional **Gemini** or local **Ollama**. No OpenAI key is required.
 
+## Live demo deployment
+
+The app has a retrieval-only public demo mode that needs no LLM API key. Follow [DEPLOYMENT.md](DEPLOYMENT.md) to publish it on Streamlit Community Cloud. The live URL will be added **after** the deployment is completed and checked. The app is **not yet confirmed publicly deployed**.
+
 ## Features
 - Upload multiple searchable PDFs in Streamlit
 - Extract page text with pypdf, split into overlapping chunks
