@@ -2,9 +2,12 @@
 
 **DocQuery AI** is a Python/Streamlit research PDF assistant combining page-aware retrieval with **OpenRouter** answer generation (default), optional **Gemini** or local **Ollama**. No OpenAI key is required.
 
-## Live demo deployment
+## Live demo
 
-The app has a retrieval-only public demo mode that needs no LLM API key. Follow [DEPLOYMENT.md](DEPLOYMENT.md) to publish it on Streamlit Community Cloud. The live URL will be added **after** the deployment is completed and checked. The app is **not yet confirmed publicly deployed**.
+**[Open DocQuery AI on Streamlit](https://docquery-ai-rag.streamlit.app/)**
+
+The public demo is hosted on Streamlit Community Cloud. Upload a non-confidential, searchable PDF and try semantic search with source-page references. It supports a retrieval-only mode that does not require an LLM API key. See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment settings. The URL was supplied by the project owner; please verify live app functionality after deployment changes.
+
 
 ## Features
 - Upload multiple searchable PDFs in Streamlit
@@ -18,7 +21,7 @@ The app has a retrieval-only public demo mode that needs no LLM API key. Follow 
 Requires Python 3.10+.
 
 ```powershell
-git clone https://github.com/Balaram325/RAG_ALL_WORKS.git
+git clone https://github.com/Balaram325/DocQuery-AI.git
 cd RAG_ALL_WORKS
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
