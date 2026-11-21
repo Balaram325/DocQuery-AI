@@ -59,3 +59,7 @@ python -m pytest -q
 
 ## Portfolio summary
 Python RAG PDF assistant with Streamlit, pypdf, Sentence Transformers, ChromaDB and optional OpenRouter or Gemini API generation; displays source pages for answer checking.
+
+## Retrieval evaluation (labels required)
+
+A new `evaluate_retrieval.py` script benchmarks page-labelled **Hit Rate@1** and **Hit Rate@4** across different chunk sizes (600, 900 and 1200 characters by default). See `evaluation/README.md` to prepare 20–30 manually verified question/source/page labels. No real retrieval accuracy is claimed until this human-labelled experiment is completed; passing unit tests is not an answer-quality metric.
