@@ -5,14 +5,14 @@ The app is ready for a **retrieval-only public demo**. Visitors can upload searc
 ## Deploy from GitHub
 
 1. Sign in to https://share.streamlit.io/ and connect your GitHub account.
-2. Create a new app from `Balaram325/RAG_ALL_WORKS`, branch `main`, entry point `app.py`.
+2. Create a new app from `Balaram325/DocQuery-AI`, branch `main`, entry point `app.py`.
 3. In the app's **Advanced settings → Secrets** enter only:
 
 ```toml
 RAG_PUBLIC_DEMO = "1"
 ```
 
-4. Click **Deploy**. After deployment, open the actual `*.streamlit.app` URL and test with a small, non-confidential searchable PDF.
+4. Choose the app subdomain `docquery-ai-rag` if available, or use the existing deployed app at https://docquery-ai-rag.streamlit.app/ . Click **Deploy**. After deployment, open the actual `*.streamlit.app` URL and test with a small, non-confidential searchable PDF.
 5. Save that exact working URL in this repository's README and your CV. **Don't invent the URL before deployment.**
 
 **Important:** The app reads `RAG_PUBLIC_DEMO` from Streamlit Secrets when no environment variable is configured. Do not put provider API keys in a public demo unless you have server-side rate limiting, quotas and abuse controls.
