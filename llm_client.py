@@ -21,7 +21,7 @@ def answer(question: str, context: str, provider: str) -> str:
         response = requests.post(
             "https://openrouter.ai/api/v1/chat/completions",
             headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json",
-                     "X-Title": "ResearchPaper AI"},
+                     "X-Title": "DocQuery AI"},
             json={"model": model, "messages": [
                 {"role": "system", "content": SYSTEM},
                 {"role": "user", "content": prompt}
