@@ -7,9 +7,9 @@ from rag_core import pdf_chunks, build_index, retrieve, make_context
 from llm_client import answer
 
 load_dotenv()
-st.set_page_config(page_title="ResearchPaper AI", page_icon="📄", layout="wide")
-st.title("📄 ResearchPaper AI")
-st.caption("Upload research PDFs, search semantically, and optionally generate grounded answers.")
+st.set_page_config(page_title="DocQuery AI", page_icon="📄", layout="wide")
+st.title("📄 DocQuery AI")
+st.caption("Ask questions about research papers and PDFs with searchable source references.")
 @st.cache_resource
 def load_model():
     return SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
