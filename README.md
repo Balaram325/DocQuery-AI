@@ -1,6 +1,6 @@
-# ResearchPaper AI — RAG PDF Question Answering
+# DocQuery AI — Research PDF Question Answering
 
-A Python/Streamlit research PDF assistant combining page-aware retrieval with **OpenRouter** answer generation (default), optional **Gemini** or local **Ollama**. No OpenAI key is required.
+**DocQuery AI** is a Python/Streamlit research PDF assistant combining page-aware retrieval with **OpenRouter** answer generation (default), optional **Gemini** or local **Ollama**. No OpenAI key is required.
 
 ## Live demo deployment
 
